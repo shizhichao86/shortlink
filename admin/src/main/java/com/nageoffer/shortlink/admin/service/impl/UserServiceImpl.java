@@ -20,8 +20,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public UserRespDTO getUserByUsername(String username) {
+        // 构建查询条件：WHERE username = ?
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
                 .eq(UserDO::getUsername, username);
+        // 使用 MyBatis-Plus 提供的 baseMapper，根据条件查询一条用户记录
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
             throw new ClientException(UserErrorCodeEnum.USER_NULL);
